@@ -1,0 +1,47 @@
+package com.matheo.chahwan.proxibanque.entity;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
+@Getter @Setter
+@NoArgsConstructor @AllArgsConstructor
+public class Client {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String lastName;
+    private String firstName;
+    private String address;
+    private String postalCode;
+    private String city;
+    private String phone;
+
+    private BigDecimal initialCurrentBalance = BigDecimal.ZERO;
+    private BigDecimal overdraft = BigDecimal.valueOf(1000);
+
+    private BigDecimal initialSavingsBalance = BigDecimal.ZERO;
+    private Double interestRate = 3.0;
+
+    private boolean addVisaElectron = false;
+    private boolean addVisaPremier = false;
+
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
+    @JsonManagedReference(value = "client-accounts")
+    private List<Account> accounts = new ArrayList<>();
+
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
+    @JsonManagedReference(value = "client-cards")
+    private List<Card> cards = new ArrayList<>();
+
+}
