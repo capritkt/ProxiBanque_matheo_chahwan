@@ -1,5 +1,6 @@
 package com.matheo.chahwan.proxibanque.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -35,6 +36,10 @@ public class Client {
 
     private boolean addVisaElectron = false;
     private boolean addVisaPremier = false;
+
+    @ManyToOne
+    @JsonBackReference("advisor-clients")
+    private Advisor advisor;
 
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
     @JsonManagedReference(value = "client-accounts")

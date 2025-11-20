@@ -1,5 +1,6 @@
 package com.matheo.chahwan.proxibanque.controller;
 
+import com.matheo.chahwan.proxibanque.dto.ClientDTO;
 import com.matheo.chahwan.proxibanque.entity.Client;
 import com.matheo.chahwan.proxibanque.repository.ClientRepository;
 import com.matheo.chahwan.proxibanque.service.ClientService;
@@ -15,7 +16,7 @@ public class ClientController {
     private final ClientRepository clientRepo;
 
     @PostMapping
-    public ResponseEntity<Client> create(@RequestBody Client client) {
+    public ResponseEntity<Client> create(@RequestBody ClientDTO client) {
         Client saved = clientService.createClient(client);
         return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
@@ -31,4 +32,14 @@ public class ClientController {
         clientService.deleteClient(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Client> updateClient(
+            @PathVariable Long id,
+            @RequestBody ClientDTO clientDto
+    ) {
+        Client updated = clientService.updateClient(id, clientDto);
+        return ResponseEntity.ok(updated);
+    }
+
 }
